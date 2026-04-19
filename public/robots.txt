@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://smujaddid.dev/sitemap-index.xml

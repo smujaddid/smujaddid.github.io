@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Hello world banner">
+  <rect width="800" height="450" fill="#002b36" />
+  <text x="50%" y="54%" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="72" fill="#b58900">hello, world</text>
+  <text x="50%" y="70%" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="20" fill="#93a1a1">smujaddid.dev</text>
+</svg>

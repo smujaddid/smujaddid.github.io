@@ -1,0 +1,68 @@
+---
+import { Icon } from 'astro-icon/components'
+import { getLocale, t, localizedPath } from '../i18n/t'
+import ThemeToggle from './ThemeToggle.astro'
+import { site } from '../config/site'
+
+const locale = getLocale(Astro.url.pathname)
+const current = Astro.url.pathname.replace(/\/$/, '') || '/'
+
+const links = [
+  { href: localizedPath(locale, '/'), label: t(locale, 'nav.home') },
+  { href: localizedPath(locale, '/blogs'), label: t(locale, 'nav.blogs') },
+  { href: localizedPath(locale, '/projects'), label: t(locale, 'nav.projects') },
+  { href: localizedPath(locale, '/about'), label: t(locale, 'nav.about') },
+  { href: localizedPath(locale, '/contact'), label: t(locale, 'nav.contact') },
+]
+
+function isActive(href: string): boolean {
+  const normalized = href.replace(/\/$/, '') || '/'
+  if (normalized === '/' || normalized === `/${locale}`) {
+    return current === normalized
+  }
+  return current === normalized || current.startsWith(`${normalized}/`)
+}
+---
+
+<header class="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+  <nav
+    class="nav-pill pointer-events-auto flex items-center gap-1 rounded-full px-2 py-1.5 shadow-sm"
+    aria-label="Primary"
+  >
+    <a
+      href={localizedPath(locale, '/')}
+      class="hidden px-3 text-sm font-semibold tracking-tight sm:inline"
+      style="color: rgb(var(--color-fg-rgb));"
+    >
+      {site.shortName}
+    </a>
+    <span class="hidden h-5 w-px sm:inline-block" style="background: rgb(var(--color-border-rgb));"
+    ></span>
+    <ul class="flex items-center gap-0.5">
+      {
+        links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              data-active={isActive(href)}
+              class="rounded-full px-3 py-1.5 text-sm transition-colors hover:text-[rgb(var(--color-accent-rgb))] data-[active=true]:bg-[rgb(var(--color-accent-rgb))]/10 data-[active=true]:text-[rgb(var(--color-accent-rgb))]"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <span class="h-5 w-px" style="background: rgb(var(--color-border-rgb));"></span>
+    <ThemeToggle />
+    <a
+      href={site.social.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="GitHub"
+      class="grid size-8 place-items-center rounded-full hover:text-[rgb(var(--color-accent-rgb))]"
+    >
+      <Icon name="simple-icons:github" class="size-4" />
+    </a>
+  </nav>
+</header>

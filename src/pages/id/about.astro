@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import TechIcon from '../../components/TechIcon.astro'
+import StarRating from '../../components/StarRating.astro'
+import { getLocale, t, localizedPath } from '../../i18n/t'
+import { profile, skills, experience, education, honors, localize } from '../../config/profile'
+import { getProjects } from '../../utils/content'
+
+const locale = getLocale(Astro.url.pathname)
+const projects = await getProjects(locale)
+---
+
+<BaseLayout title={t(locale, 'about.title')} description={localize(profile.bio, locale)}>
+  <header class="mb-12 flex flex-col items-center text-center">
+    <img
+      src="/images/agha.jpg"
+      alt={profile.name}
+      width="160"
+      height="160"
+      class="mb-6 size-40 rounded-full ring-4"
+      style="--tw-ring-color: rgb(var(--color-surface-rgb));"
+    />
+    <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{t(locale, 'about.title')}</h1>
+    <p class="mt-2 text-sm" style="color: rgb(var(--color-muted-rgb));">
+      <span>{t(locale, 'about.location')}: </span>
+      <span>{localize(profile.location, locale)}</span>
+    </p>
+    <p class="mt-5 max-w-2xl text-base leading-relaxed">
+      {localize(profile.bio, locale)}
+    </p>
+  </header>
+
+  <section class="mb-14">
+    <h2 class="mb-5 text-xl font-semibold tracking-tight">{t(locale, 'about.skills')}</h2>
+    <div class="mb-4 flex flex-wrap items-center gap-2 text-sm">
+      <span
+        class="inline-flex items-center gap-1 rounded border px-2 py-1"
+        style="border-color: rgb(var(--color-border-rgb));"
+      >
+        <StarRating rating={1} />
+        <span>Pemula</span>
+      </span>
+      <span
+        class="inline-flex items-center gap-1 rounded border px-2 py-1"
+        style="border-color: rgb(var(--color-border-rgb));"
+      >
+        <StarRating rating={2} />
+        <span>Mahir</span>
+      </span>
+      <span
+        class="inline-flex items-center gap-1 rounded border px-2 py-1"
+        style="border-color: rgb(var(--color-border-rgb));"
+      >
+        <StarRating rating={3} />
+        <span>Ahli</span>
+      </span>
+    </div>
+    <div class="flex flex-col gap-6">
+      {
+        skills.map((group) => (
+          <div>
+            <h3
+              class="mb-3 text-xs tracking-[0.18em] uppercase"
+              style="color: rgb(var(--color-muted-rgb));"
+            >
+              {localize(group.group, locale)}
+            </h3>
+            <div class="grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-3">
+              {group.items.map((item) => (
+                <TechIcon name={item.name} icon={item.icon} rating={item.rating} />
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    projects.length > 0 && (
+      <section class="mb-14">
+        <h2 class="mb-5 text-xl font-semibold tracking-tight">{t(locale, 'about.projects')}</h2>
+        <ul class="flex flex-col gap-3">
+          {projects.slice(0, 4).map((entry) => (
+            <li>
+              <a
+                href={localizedPath(locale, `/projects/${entry.id.split('/').slice(1).join('/')}`)}
+                class="flex items-baseline justify-between gap-4 rounded-lg border px-4 py-3 transition-colors hover:border-[rgb(var(--color-accent-rgb))] hover:text-[rgb(var(--color-accent-rgb))]"
+                style="border-color: rgb(var(--color-border-rgb));"
+              >
+                <span class="font-medium">{entry.data.title}</span>
+                <span class="text-sm" style="color: rgb(var(--color-muted-rgb));">
+                  {entry.data.description}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="mb-14">
+    <h2 class="mb-5 text-xl font-semibold tracking-tight">{t(locale, 'about.experience')}</h2>
+    <ol class="relative border-l pl-6" style="border-color: rgb(var(--color-border-rgb));">
+      {
+        experience.map((item) => (
+          <li class="relative mb-8 last:mb-0">
+            <span
+              class="absolute top-1.5 -left-[31px] size-3 rounded-full"
+              style="background: rgb(var(--color-accent-rgb));"
+            />
+            <p
+              class="text-xs tracking-[0.18em] uppercase"
+              style="color: rgb(var(--color-muted-rgb));"
+            >
+              {localize(item.period, locale)}
+            </p>
+            <p class="mt-1 text-base font-semibold">{localize(item.position, locale)}</p>
+            <p class="text-sm">
+              {item.company}
+              {item.location ? ` · ${item.location}` : ''}
+            </p>
+            <p class="mt-2 text-sm" style="color: rgb(var(--color-muted-rgb));">
+              {localize(item.description, locale)}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="mb-14 grid grid-cols-1 gap-10 sm:grid-cols-2">
+    <div>
+      <h2 class="mb-4 text-xl font-semibold tracking-tight">{t(locale, 'about.education')}</h2>
+      <ul class="flex flex-col gap-3">
+        {
+          education.map((item) => (
+            <li>
+              <p
+                class="text-xs tracking-[0.18em] uppercase"
+                style="color: rgb(var(--color-muted-rgb));"
+              >
+                {item.period}
+              </p>
+              <p class="mt-1 font-semibold">{item.institution}</p>
+              <p class="text-sm" style="color: rgb(var(--color-muted-rgb));">
+                {localize(item.degree, locale)}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-xl font-semibold tracking-tight">{t(locale, 'about.honors')}</h2>
+      <ul class="flex flex-col gap-3">
+        {
+          honors.map((item) => (
+            <li>
+              <p class="font-semibold">{item.name}</p>
+              <p class="text-sm" style="color: rgb(var(--color-muted-rgb));">
+                {localize(item.detail, locale)}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="mb-4 text-xl font-semibold tracking-tight">{t(locale, 'about.languages')}</h2>
+    <ul class="flex flex-wrap gap-2">
+      {
+        profile.spokenLanguages.map((lang) => (
+          <li
+            class="rounded-full border px-3 py-1 text-sm"
+            style="border-color: rgb(var(--color-border-rgb));"
+          >
+            {lang}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

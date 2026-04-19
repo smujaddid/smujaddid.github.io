@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import TagPill from './TagPill.astro'
+import { formatDate, toSlug } from '../utils/content'
+import { getLocale, localizedPath } from '../i18n/t'
+
+interface Props {
+  entry: CollectionEntry<'blog'>
+}
+const { entry } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const slug = toSlug(entry)
+const href = localizedPath(locale, `/blogs/${slug}`)
+---
+
+<article class="group">
+  <div
+    class="overflow-hidden rounded-2xl border transition-colors hover:border-[rgb(var(--color-accent-rgb))]"
+    style="border-color: rgb(var(--color-border-rgb)); background: rgb(var(--color-surface-rgb) / 0.4);"
+  >
+    <a href={href} class="flex flex-col gap-4 p-4 sm:flex-row sm:p-5">
+      {
+        entry.data.thumbnail && (
+          <div class="relative aspect-video w-full shrink-0 overflow-hidden rounded-xl sm:aspect-square sm:w-32">
+            <img
+              src={entry.data.thumbnail.src}
+              alt={entry.data.thumbnail.alt}
+              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        )
+      }
+      <div class="flex min-w-0 flex-1 flex-col gap-2">
+        <h3
+          class="text-lg leading-snug font-semibold tracking-tight transition-colors group-hover:text-[rgb(var(--color-accent-rgb))]"
+        >
+          {entry.data.title}
+        </h3>
+        <p class="text-sm leading-relaxed" style="color: rgb(var(--color-muted-rgb));">
+          {entry.data.description}
+        </p>
+        <div class="mt-auto flex flex-wrap items-center gap-2 pt-1">
+          <time
+            class="text-xs"
+            datetime={entry.data.date.toISOString()}
+            style="color: rgb(var(--color-muted-rgb));"
+          >
+            {formatDate(entry.data.date, locale)}
+          </time>
+        </div>
+      </div>
+    </a>
+    {
+      entry.data.tags.length > 0 && (
+        <div
+          class="flex flex-wrap items-center gap-2 px-4 py-3 sm:px-5"
+          style="border-color: rgb(var(--color-border-rgb));"
+        >
+          {entry.data.tags.map((tag) => (
+            <TagPill label={tag} clickable type="blog" />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</article>

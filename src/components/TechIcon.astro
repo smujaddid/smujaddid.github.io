@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components'
+import StarRating from './StarRating.astro'
+
+interface Props {
+  name: string
+  icon: string
+  rating?: 1 | 2 | 3
+}
+const { name, icon, rating } = Astro.props
+---
+
+<span
+  class="relative inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm"
+  style="border-color: rgb(var(--color-border-rgb));"
+>
+  <Icon name={icon} class="size-4" />
+  <span>{name}</span>
+  {
+    rating && (
+      <span
+        class="absolute right-0 border-l px-2 py-1 text-[10px] leading-none"
+        style="border-color: rgb(var(--color-border-rgb)); background: rgb(var(--color-bg-rgb));"
+      >
+        <StarRating rating={rating} />
+      </span>
+    )
+  }
+</span>

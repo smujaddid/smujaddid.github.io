@@ -1,0 +1,32 @@
+---
+import { getLocale, localizedPath } from '../i18n/t'
+
+interface Props {
+  label: string
+  clickable?: boolean
+  type?: 'blog' | 'project'
+}
+const { label, clickable = false, type = 'blog' } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const basePath = type === 'project' ? '/projects/tag' : '/blogs/tag'
+const href = localizedPath(locale, `${basePath}/${label.replace(/\s+/g, '-')}`)
+---
+
+{
+  clickable ? (
+    <a
+      href={href}
+      class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs transition-colors hover:bg-[rgb(var(--color-surface-rgb))] hover:text-[rgb(var(--color-accent-rgb))]"
+      style="background: rgb(var(--color-surface-rgb)); color: rgb(var(--color-muted-rgb));"
+    >
+      # {label}
+    </a>
+  ) : (
+    <span
+      class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs"
+      style="background: rgb(var(--color-surface-rgb)); color: rgb(var(--color-muted-rgb));"
+    >
+      # {label}
+    </span>
+  )
+}

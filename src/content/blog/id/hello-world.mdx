@@ -1,0 +1,43 @@
+---
+title: 'Halo, dunia'
+description: 'Perkenalan singkat dan apa yang akan saya tulis di blog ini — catatan seputar backend, API, dan praktik rekayasa perangkat lunak.'
+date: 2026-04-18
+tags: ['meta', 'perkenalan']
+featured: true
+thumbnail:
+  src: '/images/blog/hello-world.svg'
+  alt: 'Halo, dunia'
+---
+
+Saya Sibghatullah Mujaddid, seorang Software Engineer yang berbasis di Indonesia
+dengan lebih dari 11 tahun pengalaman membangun API, platform SaaS, dan sistem skalabel.
+
+## Yang akan saya tulis
+
+- Rekayasa backend dengan Node.js, JavaScript, TypeScript, dan NestJS.
+- Desain API, payments, dan pelajaran dari integrasi sistem nyata.
+- Docker, AWS, Dokploy, dan apapun yang menjaga produksi tetap hidup di jam 3 pagi.
+- Catatan dari proyek sampingan.
+
+## Contoh kode, untuk memastikan highlighting bekerja
+
+```ts
+type User = { id: string; name: string }
+
+async function findUser(id: string): Promise<User | null> {
+  const res = await db.query<User>('select id, name from users where id = $1', [id])
+  return res.rows[0] ?? null
+}
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Halo, dunia")
+}
+```
+
+Terima kasih sudah mampir.

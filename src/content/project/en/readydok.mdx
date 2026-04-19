@@ -1,0 +1,59 @@
+---
+title: 'ReadyDok'
+description: 'A SaaS platform for clinics and doctors to manage appointments, patient schedules, retention, and public reputation.'
+date: 2017-05-01
+tags: ['SaaS', 'Healthcare', 'PHP', 'Laravel', 'Vue']
+thumbnail:
+  src: '/images/projects/readydok/cover.png'
+  alt: 'ReadyDok cover'
+gallery:
+  - src: '/images/projects/readydok/screenshot-1.png'
+    alt: 'ReadyDok dashboard'
+    caption: "Clinic dashboard with today's appointments."
+  - src: '/images/projects/readydok/screenshot-2.png'
+    alt: 'Booking flow'
+    caption: 'Patient booking flow — mobile-first.'
+links:
+  - label: 'Website'
+    href: 'https://www.readydok.com'
+---
+
+import Gallery from '../../../components/Gallery.astro'
+
+## About the project
+
+**ReadyDok** is a SaaS platform for Indonesian clinics and private doctors.
+Patients book appointments online, clinics manage their schedules and patient
+records, and practices grow retention through automated reminders and a
+public-facing profile with reviews.
+
+I co-founded ReadyDok in 2017 and lead its engineering. The stack evolved from a
+single Laravel monolith into a Node.js + TypeScript backend with a Vue/Nuxt
+front end, running on cloud platform.
+
+## Highlights
+
+- **Appointment engine**: conflict detection, recurring slots, per-doctor rules.
+- **Patient portal**: mobile-first booking flow with reminders over WhatsApp and email.
+- **Admin dashboard**: schedule grid, patient history, reporting.
+- **Integrations**: payments, messaging, and calendar sync.
+
+<Gallery
+  images={[
+    {
+      src: '/images/projects/readydok/screenshot-1.png',
+      alt: 'ReadyDok dashboard',
+      caption: "Clinic dashboard with today's appointments.",
+    },
+    {
+      src: '/images/projects/readydok/screenshot-2.png',
+      alt: 'Booking flow',
+      caption: 'Patient booking flow — mobile-first.',
+    },
+  ]}
+/>
+
+## Stack
+
+PHP, Laravel, JavaScript, MySQL, Redis, Vue, Bootstrap CSS, Docker, Traefik
+and linux server.

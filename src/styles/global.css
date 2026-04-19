@@ -1,0 +1,209 @@
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+/* Custom fonts */
+@font-face {
+  font-family: 'Lexend';
+  src:
+    url('/fonts/Lexend-Regular.woff2') format('woff2'),
+    url('/fonts/Lexend-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src:
+    url('/fonts/GeistMono-Regular.woff2') format('woff2'),
+    url('/fonts/GeistMono-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src:
+    url('/fonts/Geist-Regular.woff2') format('woff2'),
+    url('/fonts/Geist-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Theme is selected by `data-theme` on <html>. No dark:/light: variant needed. */
+
+@theme inline {
+  --color-bg: rgb(var(--color-bg-rgb) / <alpha-value>);
+  --color-surface: rgb(var(--color-surface-rgb) / <alpha-value>);
+  --color-fg: rgb(var(--color-fg-rgb) / <alpha-value>);
+  --color-muted: rgb(var(--color-muted-rgb) / <alpha-value>);
+  --color-border: rgb(var(--color-border-rgb) / <alpha-value>);
+  --color-accent: rgb(var(--color-accent-rgb) / <alpha-value>);
+  --color-accent-2: rgb(var(--color-accent-2-rgb) / <alpha-value>);
+
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Lexend', ui-serif, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+/* Light (GitHub - default) */
+:root,
+:root[data-theme='light'] {
+  --color-bg-rgb: 255 255 255;
+  --color-surface-rgb: 246 248 250;
+  --color-fg-rgb: 36 41 47;
+  --color-muted-rgb: 87 96 106;
+  --color-border-rgb: 208 215 222;
+  --color-accent-rgb: 9 105 218;
+  --color-accent-2-rgb: 163 113 247;
+  color-scheme: light;
+}
+
+/* Dark (GitHub) */
+:root[data-theme='dark'] {
+  --color-bg-rgb: 13 17 23;
+  --color-surface-rgb: 22 27 34;
+  --color-fg-rgb: 201 209 217;
+  --color-muted-rgb: 139 148 158;
+  --color-border-rgb: 48 54 61;
+  --color-accent-rgb: 88 166 255;
+  --color-accent-2-rgb: 163 113 247;
+  color-scheme: dark;
+}
+
+/* Solarized Light */
+:root[data-theme='solarized-light'] {
+  --color-bg-rgb: 253 246 227; /* solarized base3 */
+  --color-surface-rgb: 238 232 213; /* solarized base2 */
+  --color-fg-rgb: 88 110 117; /* solarized base01 */
+  --color-muted-rgb: 147 161 161; /* solarized base1 */
+  --color-border-rgb: 223 214 190;
+  --color-accent-rgb: 38 139 210; /* solarized blue */
+  --color-accent-2-rgb: 211 54 130; /* solarized magenta */
+  color-scheme: light;
+}
+
+/* Solarized Dark */
+:root[data-theme='solarized-dark'] {
+  --color-bg-rgb: 0 43 54; /* solarized base03 */
+  --color-surface-rgb: 7 54 66; /* solarized base02 */
+  --color-fg-rgb: 147 161 161; /* solarized base1 */
+  --color-muted-rgb: 88 110 117; /* solarized base01 */
+  --color-border-rgb: 20 70 82;
+  --color-accent-rgb: 181 137 0; /* solarized yellow */
+  --color-accent-2-rgb: 108 113 196; /* solarized violet */
+  color-scheme: dark;
+}
+
+html {
+  background: rgb(var(--color-bg-rgb));
+  color: rgb(var(--color-fg-rgb));
+}
+
+body {
+  font-family: var(--font-sans);
+  background: rgb(var(--color-bg-rgb));
+  color: rgb(var(--color-fg-rgb));
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+/* Shiki multi-theme: apply CSS variables when theme switches */
+:root[data-theme='dark'] .astro-code {
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
+}
+
+:root[data-theme='dark'] .astro-code span {
+  color: var(--shiki-dark) !important;
+}
+
+:root[data-theme='solarized-light'] .astro-code {
+  background-color: var(--shiki-solarized-light-bg) !important;
+  color: var(--shiki-solarized-light) !important;
+}
+
+:root[data-theme='solarized-light'] .astro-code span {
+  color: var(--shiki-solarized-light) !important;
+}
+
+:root[data-theme='solarized-dark'] .astro-code {
+  background-color: var(--shiki-solarized-dark-bg) !important;
+  color: var(--shiki-solarized-dark) !important;
+}
+
+:root[data-theme='solarized-dark'] .astro-code span {
+  color: var(--shiki-solarized-dark) !important;
+}
+
+.astro-code {
+  font-family: var(--font-mono);
+  border-radius: 0.625rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid rgb(var(--color-border-rgb));
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Prose overrides so .prose inherits theme colors cleanly. */
+.prose {
+  --tw-prose-body: rgb(var(--color-fg-rgb));
+  --tw-prose-headings: rgb(var(--color-fg-rgb));
+  --tw-prose-lead: rgb(var(--color-muted-rgb));
+  --tw-prose-links: rgb(var(--color-accent-rgb));
+  --tw-prose-bold: rgb(var(--color-fg-rgb));
+  --tw-prose-counters: rgb(var(--color-muted-rgb));
+  --tw-prose-bullets: rgb(var(--color-muted-rgb));
+  --tw-prose-hr: rgb(var(--color-border-rgb));
+  --tw-prose-quotes: rgb(var(--color-fg-rgb));
+  --tw-prose-quote-borders: rgb(var(--color-accent-rgb));
+  --tw-prose-captions: rgb(var(--color-muted-rgb));
+  --tw-prose-code: rgb(var(--color-accent-2-rgb));
+  --tw-prose-pre-code: rgb(var(--color-fg-rgb));
+  --tw-prose-pre-bg: rgb(var(--color-surface-rgb));
+  --tw-prose-th-borders: rgb(var(--color-border-rgb));
+  --tw-prose-td-borders: rgb(var(--color-border-rgb));
+}
+
+.prose a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose :where(code):not(pre code) {
+  padding: 0.15em 0.35em;
+  border-radius: 0.3rem;
+  background: rgb(var(--color-surface-rgb));
+  font-size: 0.9em;
+}
+
+.prose :where(code)::before,
+.prose :where(code)::after {
+  content: none;
+}
+
+/* Sticky pill nav blur fallback */
+.nav-pill {
+  background: rgb(var(--color-surface-rgb) / 0.7);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  border: 1px solid rgb(var(--color-border-rgb));
+}
+
+/* Utility: focus ring using theme accent */
+:where(a, button, [role='button']):focus-visible {
+  outline: 2px solid rgb(var(--color-accent-rgb));
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}

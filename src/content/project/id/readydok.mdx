@@ -1,0 +1,59 @@
+---
+title: 'ReadyDok'
+description: 'Aplikasi SaaS untuk klinik dan dokter mengelola janji temu, jadwal pasien, retensi, dan reputasi publik.'
+date: 2017-05-01
+tags: ['SaaS', 'Healthcare', 'PHP', 'Laravel', 'Vue']
+thumbnail:
+  src: '/images/projects/readydok/cover.png'
+  alt: 'Cover ReadyDok'
+gallery:
+  - src: '/images/projects/readydok/screenshot-1.png'
+    alt: 'Dashboard ReadyDok'
+    caption: 'Dashboard klinik dengan janji temu hari ini.'
+  - src: '/images/projects/readydok/screenshot-2.png'
+    alt: 'Alur booking'
+    caption: 'Alur booking pasien — mobile-first.'
+links:
+  - label: 'Website'
+    href: 'https://www.readydok.com'
+---
+
+import Gallery from '../../../components/Gallery.astro'
+
+## Tentang proyek
+
+**ReadyDok** adalah platform SaaS untuk klinik dan dokter di Indonesia. Pasien
+bisa memesan janji secara online, klinik mengelola jadwal dan rekam medis, dan
+praktik menumbuhkan retensi melalui pengingat otomatis serta profil publik
+berisi ulasan.
+
+Saya turut mendirikan ReadyDok di 2017 dan memimpin sisi engineering. Stack-nya
+berkembang dari monolith Laravel menjadi backend Node.js + TypeScript dengan
+frontend Vue/Nuxt, berjalan di platform cloud.
+
+## Sorotan
+
+- **Engine jadwal**: deteksi bentrok, slot berulang, aturan per-dokter.
+- **Portal pasien**: alur booking mobile-first dengan pengingat lewat WhatsApp dan email.
+- **Dashboard admin**: grid jadwal, riwayat pasien, pelaporan.
+- **Integrasi**: pembayaran, pesan, dan sinkronisasi kalender.
+
+<Gallery
+  images={[
+    {
+      src: '/images/projects/readydok/screenshot-1.png',
+      alt: 'Dashboard ReadyDok',
+      caption: 'Dashboard klinik dengan janji temu hari ini.',
+    },
+    {
+      src: '/images/projects/readydok/screenshot-2.png',
+      alt: 'Alur booking',
+      caption: 'Alur booking pasien — mobile-first.',
+    },
+  ]}
+/>
+
+## Stack
+
+PHP, Laravel, JavaScript, MySQL, Redis, Vue, Bootstrap CSS, Docker, Traefik
+dan linux server.

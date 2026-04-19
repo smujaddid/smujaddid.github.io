@@ -1,0 +1,43 @@
+---
+title: 'Hello, world'
+description: 'A quick intro and what to expect from this blog — notes on backend engineering, APIs, and software craft.'
+date: 2026-04-19
+tags: ['meta', 'intro']
+featured: true
+thumbnail:
+  src: '/images/blog/hello-world.svg'
+  alt: 'Hello, world'
+---
+
+I'm Sibghatullah Mujaddid, a Software Engineer based in Indonesia with more than
+11 years of experience building APIs, SaaS platforms, and scalable systems.
+
+## What I'll write about
+
+- Backend development in Node.js, JavaScript, TypeScript, and NestJS.
+- API design, database optimization, and integration lessons from building real systems.
+- Docker, AWS, Dokploy, and everything else that keeps production alive at 3am.
+- Occasional notes from side projects.
+
+## A code sample, to prove highlighting works
+
+```ts
+type User = { id: string; name: string }
+
+async function findUser(id: string): Promise<User | null> {
+  const res = await db.query<User>('select id, name from users where id = $1', [id])
+  return res.rows[0] ?? null
+}
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, world")
+}
+```
+
+Thanks for stopping by.

@@ -1,0 +1,44 @@
+---
+import { Icon } from 'astro-icon/components'
+import { getLocale, t } from '../i18n/t'
+const locale = getLocale(Astro.url.pathname)
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="grid size-8 place-items-center rounded-full transition-colors hover:text-[rgb(var(--color-accent-rgb))]"
+  aria-label={t(locale, 'theme.label')}
+  title={t(locale, 'theme.label')}
+>
+  <Icon name="lucide:sun" class="size-4" data-theme-icon="light" />
+  <Icon name="lucide:moon" class="hidden size-4" data-theme-icon="dark" />
+  <Icon name="lucide:terminal" class="hidden size-4" data-theme-icon="solarized-light" />
+  <Icon name="lucide:terminal-square" class="hidden size-4" data-theme-icon="solarized-dark" />
+</button>
+
+<script is:inline>
+  ;(function () {
+    const ORDER = ['light', 'dark', 'solarized-light', 'solarized-dark']
+    const btn = document.getElementById('theme-toggle')
+    if (!btn) return
+    function syncIcons(theme) {
+      document.querySelectorAll('[data-theme-icon]').forEach((el) => {
+        el.classList.toggle('hidden', el.getAttribute('data-theme-icon') !== theme)
+      })
+    }
+    function cycle() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light'
+      const next = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length]
+      document.documentElement.setAttribute('data-theme', next)
+      try {
+        localStorage.setItem('theme', next)
+      } catch {
+        /* ignore */
+      }
+      syncIcons(next)
+    }
+    syncIcons(document.documentElement.getAttribute('data-theme') || 'light')
+    btn.addEventListener('click', cycle)
+  })()
+</script>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import PostCard from '../components/PostCard.astro'
+import { getHomeBlogs } from '../utils/content'
+import { getLocale, t, localizedPath } from '../i18n/t'
+import { profile, localize } from '../config/profile'
+import { site } from '../config/site'
+
+const locale = getLocale(Astro.url.pathname)
+const posts = await getHomeBlogs(locale, 3)
+---
+
+<BaseLayout title={site.name} description={localize(profile.bio, locale)}>
+  <section class="flex flex-col items-center text-center">
+    <img
+      src="/images/agha.jpg"
+      alt={profile.name}
+      width="160"
+      height="160"
+      class="mb-6 size-40 rounded-full ring-4"
+      style="--tw-ring-color: rgb(var(--color-surface-rgb));"
+    />
+    <p class="text-sm tracking-[0.2em] uppercase" style="color: rgb(var(--color-muted-rgb));">
+      {t(locale, 'home.intro.eyebrow')}
+    </p>
+    <h1 class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">{profile.name}</h1>
+    <p class="mt-4 max-w-xl text-base leading-relaxed sm:text-lg">
+      {t(locale, 'home.intro.tagline')}
+    </p>
+    <a
+      href={localizedPath(locale, '/contact')}
+      class="mt-8 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.03]"
+      style="background: rgb(var(--color-accent-rgb)); color: rgb(var(--color-bg-rgb));"
+    >
+      {t(locale, 'home.cta.contact')}
+      <span aria-hidden="true">→</span>
+    </a>
+  </section>
+
+  <section class="mt-20">
+    <header class="mb-6 flex items-end justify-between gap-3">
+      <h2 class="text-xl font-semibold tracking-tight">{t(locale, 'home.recent.title')}</h2>
+      <a
+        href={localizedPath(locale, '/blogs')}
+        class="text-sm transition-colors hover:text-[rgb(var(--color-accent-rgb))]"
+        style="color: rgb(var(--color-muted-rgb));"
+      >
+        {t(locale, 'home.recent.all')} →
+      </a>
+    </header>
+    {
+      posts.length === 0 ? (
+        <p style="color: rgb(var(--color-muted-rgb));">{t(locale, 'blogs.empty')}</p>
+      ) : (
+        <ul class="flex flex-col gap-4">
+          {posts.map((entry) => (
+            <li>
+              <PostCard entry={entry} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>

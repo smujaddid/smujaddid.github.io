@@ -1,0 +1,18 @@
+---
+import { getLocale, swapLocalePath, t } from '../i18n/t'
+import { locales } from '../i18n/ui'
+
+const current = getLocale(Astro.url.pathname)
+const other = (locales as readonly string[]).find((l) => l !== current) as 'en' | 'id'
+const otherPath = swapLocalePath(Astro.url.pathname, other)
+const otherLabel = other === 'en' ? 'EN' : 'ID'
+---
+
+<a
+  href={otherPath}
+  class="grid size-8 place-items-center rounded-full text-xs font-semibold tracking-wide transition-colors hover:text-[rgb(var(--color-accent-rgb))]"
+  aria-label={t(current, 'locale.label')}
+  title={t(current, 'locale.label')}
+>
+  {otherLabel}
+</a>

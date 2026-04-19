@@ -1,0 +1,57 @@
+---
+import '../styles/global.css'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+import { getLocale } from '../i18n/t'
+import { site } from '../config/site'
+
+interface Props {
+  title: string
+  description?: string
+  ogImage?: string
+}
+
+const { title, description, ogImage = '/images/og-default.svg' } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const fullTitle = title === site.name ? title : `${title} — ${site.name}`
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).toString()
+---
+
+<!doctype html>
+<html lang={locale} data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, site.url).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      // Prevent FOUC: read the persisted theme before the first paint.
+      ;(function () {
+        try {
+          const stored = localStorage.getItem('theme')
+          const valid = ['light', 'dark', 'solarized-light', 'solarized-dark']
+          const theme = valid.indexOf(stored) !== -1 ? stored : 'light'
+          document.documentElement.setAttribute('data-theme', theme)
+        } catch {
+          document.documentElement.setAttribute('data-theme', 'light')
+        }
+      })()
+    </script>
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <Nav />
+    <main class="mx-auto w-full max-w-3xl flex-1 px-6 pt-28 pb-20 sm:px-8">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

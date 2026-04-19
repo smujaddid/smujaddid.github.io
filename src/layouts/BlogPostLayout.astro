@@ -1,0 +1,119 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import BaseLayout from './BaseLayout.astro'
+import TagPill from '../components/TagPill.astro'
+import { estimateReadingTime, formatDate, toSlug } from '../utils/content'
+import { getLocale, t, localizedPath } from '../i18n/t'
+
+interface Props {
+  entry: CollectionEntry<'blog'>
+  body?: string
+  prev?: CollectionEntry<'blog'> | null
+  next?: CollectionEntry<'blog'> | null
+  fallback?: boolean
+}
+
+const { entry, body, prev, next, fallback = false } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const readingTime = estimateReadingTime(body)
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.thumbnail?.src}
+>
+  <article>
+    {
+      entry.data.thumbnail && (
+        <div class="mb-8 overflow-hidden rounded-xl">
+          <img
+            src={entry.data.thumbnail.src}
+            alt={entry.data.thumbnail.alt}
+            class="h-auto w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )
+    }
+
+    <header class="mb-10">
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{entry.data.title}</h1>
+      <p class="mt-3 text-base" style="color: rgb(var(--color-muted-rgb));">
+        {entry.data.description}
+      </p>
+      <div
+        class="mt-4 flex flex-wrap items-center gap-3 text-sm"
+        style="color: rgb(var(--color-muted-rgb));"
+      >
+        <time datetime={entry.data.date.toISOString()}>
+          {formatDate(entry.data.date, locale)}
+        </time>
+        <span>•</span>
+        <span>{readingTime} {t(locale, 'blogs.readingTime')}</span>
+        {
+          entry.data.tags.length > 0 && (
+            <>
+              <span>•</span>
+              <span class="flex flex-wrap gap-1.5">
+                {entry.data.tags.map((tag) => (
+                  <TagPill label={tag} />
+                ))}
+              </span>
+            </>
+          )
+        }
+      </div>
+      {
+        fallback && (
+          <p
+            class="mt-6 rounded-lg border px-4 py-2 text-sm"
+            style="border-color: rgb(var(--color-border-rgb)); color: rgb(var(--color-muted-rgb));"
+          >
+            {t(locale, 'blogs.fallbackNotice')}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="prose max-w-none">
+      <slot />
+    </div>
+
+    {
+      (prev || next) && (
+        <nav class="mt-16 grid grid-cols-1 gap-3 sm:grid-cols-2" aria-label="Blog post navigation">
+          {prev ? (
+            <a
+              href={localizedPath(locale, `/blogs/${toSlug(prev)}`)}
+              class="rounded-xl border p-4 transition-colors hover:border-[rgb(var(--color-accent-rgb))]"
+              style="border-color: rgb(var(--color-border-rgb));"
+            >
+              <span class="text-xs" style="color: rgb(var(--color-muted-rgb));">
+                ← {t(locale, 'blogs.prev')}
+              </span>
+              <span class="mt-1 block font-medium">{prev.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <a
+              href={localizedPath(locale, `/blogs/${toSlug(next)}`)}
+              class="rounded-xl border p-4 text-right transition-colors hover:border-[rgb(var(--color-accent-rgb))]"
+              style="border-color: rgb(var(--color-border-rgb));"
+            >
+              <span class="text-xs" style="color: rgb(var(--color-muted-rgb));">
+                {t(locale, 'blogs.next')} →
+              </span>
+              <span class="mt-1 block font-medium">{next.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+        </nav>
+      )
+    }
+  </article>
+</BaseLayout>
